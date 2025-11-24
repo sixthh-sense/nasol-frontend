@@ -373,7 +373,22 @@ export default function MyPage() {
                                 {/* 편집 모드에서만 보이는 필드들 */}
                                 {isEditing && (
                                     <>
-
+                                        <div className="flex flex-col sm:flex-row sm:items-center border-b border-zinc-200 dark:border-zinc-700 pb-4">
+                                            <div className="text-sm font-medium text-zinc-600 dark:text-zinc-400 sm:w-32 mb-1 sm:mb-0">
+                                                자동 분석 주기
+                                            </div>
+                                            <div className="flex-1">
+                                                <input
+                                                    type="number"
+                                                    value={editForm.automatic_analysis_cycle}
+                                                    onChange={(e) =>
+                                                        setEditForm({ ...editForm, automatic_analysis_cycle: e.target.value })
+                                                    }
+                                                    placeholder="자동 분석 주기"
+                                                    className="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded bg-white dark:bg-zinc-800 text-black dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                />
+                                            </div>
+                                        </div>
 
                                         <div className="flex flex-col sm:flex-row sm:items-center border-b border-zinc-200 dark:border-zinc-700 pb-4">
                                             <div className="text-sm font-medium text-zinc-600 dark:text-zinc-400 sm:w-32 mb-1 sm:mb-0">
