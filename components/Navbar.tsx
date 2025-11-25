@@ -26,6 +26,10 @@ export default function Navbar() {
                     Upload
                 </Link>
 
+                <Link href="/assets_simulation" className="hover:underline">
+                    미래 자산 예측
+                </Link>
+
                 <Link href="/myPage">MyPage</Link>
                 {isLoggedIn ? (
                     <button
