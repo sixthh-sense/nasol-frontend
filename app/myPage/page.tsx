@@ -15,9 +15,9 @@ export default function MyPage() {
         nickname: "",
         profile_image: "",
         phone_number: "",
-        automatic_analysis_cycle: "",
-        target_period: "",
-        target_amount: "",
+        automatic_analysis_cycle: 0,
+        target_period: 0,
+        target_amount: 0,
     });
     const [submitting, setSubmitting] = useState(false);
     const { isLoggedIn } = useAuth();
@@ -44,7 +44,7 @@ export default function MyPage() {
                         credentials: "include",
                     }
                 );
-
+                console.log(response)
                 // 404면 다른 방법 시도
                 if (response.status === 404) {
                     // 방법 2: authentication/status에서 사용자 정보 가져오기
@@ -77,12 +77,12 @@ export default function MyPage() {
                 setAccount(data);
                 // 편집 폼 초기화
                 setEditForm({
-                    nickname: data.nickname || "",
-                    profile_image: data.profile_image || "",
-                    phone_number: data.phone_number || "",
-                    automatic_analysis_cycle: data.automatic_analysis_cycle?.toString() || "",
-                    target_period: data.target_period?.toString() || "",
-                    target_amount: data.target_amount?.toString() || "",
+                    nickname: data.nickname  ? data.nickname : "",
+                    profile_image: data.profile_image ? data.profile_image : "",
+                    phone_number: data.phone_number ? data.phone_number : "",
+                    automatic_analysis_cycle: data.automatic_analysis_cycle ? data.automatic_analysis_cycle : 0,
+                    target_period: data.target_period ? data.target_period : 0,
+                    target_amount: data.target_amount ? data.target_amount : 0,
                 });
             } catch (err) {
                 console.error("[MyPage] Failed to fetch account:", err);
@@ -106,12 +106,12 @@ export default function MyPage() {
     const handleCancel = () => {
         if (account) {
             setEditForm({
-                nickname: account.nickname || "",
-                profile_image: account.profile_image || "",
-                phone_number: account.phone_number || "",
-                automatic_analysis_cycle: account.automatic_analysis_cycle?.toString() || "",
-                target_period: account.target_period?.toString() || "",
-                target_amount: account.target_amount?.toString() || "",
+                nickname: account.nickname ? account.nickname : "",
+                profile_image: account.profile_image ? account.profile_image : "",
+                phone_number: account.phone_number ? account.phone_number : "",
+                automatic_analysis_cycle: account.automatic_analysis_cycle ? account.automatic_analysis_cycle : 0,
+                target_period: account.target_period ? account.target_period : 0,
+                target_amount: account.target_amount ? account.target_amount : 0,
             });
         }
         setIsEditing(false);
@@ -129,9 +129,9 @@ export default function MyPage() {
                 nickname: string | null;
                 profile_image: string | null;
                 phone_number: string | null;
-                automatic_analysis_cycle?: number;
-                target_period?: number;
-                target_amount?: number;
+                automatic_analysis_cycle?: number | 0;
+                target_period?: number | 0;
+                target_amount?: number | 0;
             } = {
                 nickname: editForm.nickname || null,
                 profile_image: editForm.profile_image || null,
@@ -140,13 +140,13 @@ export default function MyPage() {
 
             // 편집 모드에서만 보이는 필드들
             if (editForm.automatic_analysis_cycle) {
-                payload.automatic_analysis_cycle = parseInt(editForm.automatic_analysis_cycle);
+                payload.automatic_analysis_cycle = editForm.automatic_analysis_cycle;
             }
             if (editForm.target_period) {
-                payload.target_period = parseInt(editForm.target_period);
+                payload.target_period = editForm.target_period;
             }
             if (editForm.target_amount) {
-                payload.target_amount = parseInt(editForm.target_amount);
+                payload.target_amount = editForm.target_amount;
             }
 
             const response = await fetch(
@@ -382,7 +382,7 @@ export default function MyPage() {
                                                     type="number"
                                                     value={editForm.automatic_analysis_cycle}
                                                     onChange={(e) =>
-                                                        setEditForm({ ...editForm, automatic_analysis_cycle: e.target.value })
+                                                        setEditForm({ ...editForm, automatic_analysis_cycle: parseInt(e.target.value) })
                                                     }
                                                     placeholder="자동 분석 주기"
                                                     className="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded bg-white dark:bg-zinc-800 text-black dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -399,7 +399,7 @@ export default function MyPage() {
                                                     type="number"
                                                     value={editForm.target_period}
                                                     onChange={(e) =>
-                                                        setEditForm({ ...editForm, target_period: e.target.value })
+                                                        setEditForm({ ...editForm, target_period: parseInt(e.target.value) })
                                                     }
                                                     placeholder="목표 기간"
                                                     className="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded bg-white dark:bg-zinc-800 text-black dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -416,7 +416,7 @@ export default function MyPage() {
                                                     type="number"
                                                     value={editForm.target_amount}
                                                     onChange={(e) =>
-                                                        setEditForm({ ...editForm, target_amount: e.target.value })
+                                                        setEditForm({ ...editForm, target_amount: parseInt(e.target.value) })
                                                     }
                                                     placeholder="목표 금액"
                                                     className="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded bg-white dark:bg-zinc-800 text-black dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
