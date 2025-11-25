@@ -35,6 +35,10 @@ export default function Navbar() {
                     미래 자산 예측
                 </Link>
 
+                <Link href="/tax_credit" className="hover:underline">
+                    세액 공제 확인
+                </Link>
+
                 <Link href="/myPage">MyPage</Link>
                 {isLoggedIn ? (
                     <button
