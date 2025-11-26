@@ -18,26 +18,53 @@ export default function IncomePage() {
 
     const [file, setFile] = useState<File | null>(null);
     const [inputMethod, setInputMethod] = useState<"upload" | "manual">("upload");
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string>("");
 
     const updateField = (key: string, value: string) => {
         setFields((prev) => ({ ...prev, [key]: value }));
     };
 
     async function handleNext() {
-        // manual 입력 기능은 아직 백엔드 API 없음 → 경고로 처리
-        if (inputMethod === "manual") {
-            alert("직접 입력 분석 기능은 곧 추가될 예정입니다.");
-            return;
+        setError("");
+        setIsLoading(true);
+
+        try {
+            // 직접 입력 데이터를 백엔드 API로 전송
+            if (inputMethod === "manual") {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/documents-multi-agents/income`, {
+                    credentials: "include",
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({  income_data: fields }),
+                });
+                const data = await res.json();
+
+                if (!res.ok) {
+                    alert(res.statusText)
+                    throw new Error(data.message || '소득 자료 저장 중 오류가 발생했습니다.');
+                }
+
+                alert("소득 자료가 성공적으로 저장되었습니다.");
+            }
+            // PDF 업로드 방식
+            else {
+                if (!file) {
+                    alert("PDF 파일을 업로드하세요.");
+                    return;
+                }
+
+                await analyzeDocument(file, "income");
+            }
+
+            router.push("/flow/expense");
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다.";
+            setError(errorMessage);
+            alert(errorMessage);
+        } finally {
+            setIsLoading(false);
         }
-
-        if (!file) {
-            alert("PDF 파일을 업로드하세요.");
-            return;
-        }
-
-        await analyzeDocument(file, "income");
-
-        router.push("/flow/expense");
     }
 
     return (
@@ -50,6 +77,13 @@ export default function IncomePage() {
                     소득 관련 PDF를 업로드하거나 직접 입력하세요.
                 </p>
             </div>
+
+            {/* 에러 메시지 표시 */}
+            {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                    {error}
+                </div>
+            )}
 
             {/* 입력 방법 선택 */}
             <div className="flex gap-2 border-b border-gray-200">
@@ -115,9 +149,9 @@ export default function IncomePage() {
 
             {/* 직접 입력 화면 */}
             {inputMethod === "manual" && (
-                <div className="space-y-4 opacity-50 pointer-events-none">
+                <div className="space-y-4">
                     <h3 className="text-lg font-semibold text-gray-900">
-                        직접 입력(준비 중)
+                        직접 입력
                     </h3>
 
                     {Object.keys(fields).map((key) => (
@@ -142,7 +176,10 @@ export default function IncomePage() {
                 </div>
             )}
 
-            <StepActions onNext={handleNext} nextLabel="다음" />
+            <StepActions 
+                onNext={handleNext} 
+                nextLabel={isLoading ? "처리 중..." : "다음"} 
+            />
         </div>
     );
 }
