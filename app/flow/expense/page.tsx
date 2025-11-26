@@ -8,7 +8,7 @@ import ConfirmDialog from "@/components/common/ConfirmDialog";
 
 export default function ExpensePage() {
     const router = useRouter();
-    const { analyzeDocument } = useAnalyzeDocument();
+    const { analyzeDocument, analyzeForm } = useAnalyzeDocument();
 
     // 기본 제공 필드
     const [defaultFields, setDefaultFields] = useState<Record<string, string>>({
@@ -107,23 +107,7 @@ export default function ExpensePage() {
                     }
                 });
 
-                const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_BASE_URL}/documents-multi-agents/expense`,
-                    {
-                        credentials: "include",
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ expense_data: merged }),
-                    }
-                );
-
-                const data = await res.json();
-
-                if (!res.ok) {
-                    throw new Error(
-                        data.message || "지출 자료 저장 중 오류가 발생했습니다."
-                    );
-                }
+                await analyzeForm(merged, "expense");
 
                 setDialog({
                     isOpen: true,

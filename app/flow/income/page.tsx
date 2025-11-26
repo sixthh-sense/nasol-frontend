@@ -8,7 +8,7 @@ import ConfirmDialog from "@/components/common/ConfirmDialog";
 
 export default function IncomePage() {
     const router = useRouter();
-    const { analyzeDocument } = useAnalyzeDocument();
+    const { analyzeDocument, analyzeForm } = useAnalyzeDocument();
 
     // 기본 제공 필드
     const [defaultFields, setDefaultFields] = useState<Record<string, string>>({
@@ -107,23 +107,7 @@ export default function IncomePage() {
                     }
                 });
 
-                const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_BASE_URL}/documents-multi-agents/income`,
-                    {
-                        credentials: "include",
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ income_data: merged }),
-                    }
-                );
-
-                const data = await res.json();
-
-                if (!res.ok) {
-                    throw new Error(
-                        data.message || "소득 자료 저장 중 오류가 발생했습니다."
-                    );
-                }
+                await analyzeForm(merged, "income");
 
                 setDialog({
                     isOpen: true,
