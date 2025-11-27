@@ -10,6 +10,8 @@ export default function Navbar() {
     const router = useRouter();
     const [isAnalysisOpen, setIsAnalysisOpen] = useState(false);
     const [isMobileAnalysisOpen, setIsMobileAnalysisOpen] = useState(false);
+    const [isVisualizeOpen, setIsVisualizeOpen] = useState(false);
+    const [isMobileVisualizeOpen, setIsMobileVisualizeOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -83,6 +85,42 @@ export default function Navbar() {
                                             className="block px-4 py-3 text-sm hover:bg-green-600 transition-colors duration-200 border-t border-gray-700"
                                         >
                                             💸 연말정산 공제 내역 확인
+                                        </Link>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div 
+                            className="relative"
+                            onMouseEnter={() => setIsVisualizeOpen(true)}
+                            onMouseLeave={() => setIsVisualizeOpen(false)}
+                        >
+                            <button
+                                className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-700/50 hover:bg-purple-600 hover:shadow-md transition-all duration-200 hover:scale-105 flex items-center gap-1"
+                            >
+                                📈 시각화 자료
+                                <span className={`transition-transform duration-200 ${isVisualizeOpen ? 'rotate-180' : ''}`}>
+                                    ▼
+                                </span>
+                            </button>
+                            
+                            {isVisualizeOpen && (
+                                <div className="absolute top-[calc(100%-2px)] left-0 w-56 z-50">
+                                    <div className="bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden">
+                                        <div className="pt-1">
+                                            <Link
+                                                href="/piechart"
+                                                className="block px-4 py-3 text-sm hover:bg-purple-600 transition-colors duration-200"
+                                            >
+                                                🥧 파이 차트
+                                            </Link>
+                                        </div>
+                                        <Link
+                                            href="/tax_credit"
+                                            className="block px-4 py-3 text-sm hover:bg-green-600 transition-colors duration-200 border-t border-gray-700"
+                                        >
+                                            🔥 월별 지출 히트맵
                                         </Link>
                                     </div>
                                 </div>
@@ -170,6 +208,37 @@ export default function Navbar() {
                         )}
                     </div>
                     
+                    {/* 모바일 시각화 자료 드롭다운 */}
+                    <div>
+                        <button
+                            onClick={() => setIsMobileVisualizeOpen(!isMobileVisualizeOpen)}
+                            className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium bg-gray-700/50 hover:bg-purple-600 transition-all duration-200"
+                        >
+                            <span>📈 시각화 자료</span>
+                            <span className={`transition-transform duration-200 ${isMobileVisualizeOpen ? 'rotate-180' : ''}`}>
+                                ▼
+                            </span>
+                        </button>
+                        {isMobileVisualizeOpen && (
+                            <div className="mt-2 ml-4 space-y-2">
+                                <Link
+                                    href="/piechart"
+                                    className="block px-4 py-2 rounded-lg text-sm font-medium bg-gray-700/50 hover:bg-purple-600 transition-all duration-200"
+                                    onClick={() => setIsMobileVisualizeOpen(false)}
+                                >
+                                    🥧 파이 차트
+                                </Link>
+                                <Link
+                                    href="/tax_credit"
+                                    className="block px-4 py-2 rounded-lg text-sm font-medium bg-gray-700/50 hover:bg-green-600 transition-all duration-200"
+                                    onClick={() => setIsMobileVisualizeOpen(false)}
+                                >
+                                    🔥 월별 지출 히트맵
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+
                     <Link 
                         href="/myPage" 
                         className="block px-4 py-2 rounded-lg text-sm font-medium bg-gray-700/50 hover:bg-indigo-600 transition-all duration-200"
