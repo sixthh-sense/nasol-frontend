@@ -117,7 +117,7 @@ export default function Navbar() {
                                             </Link>
                                         </div>
                                         <Link
-                                            href="/tax_credit"
+                                            href="/hitmap"
                                             className="block px-4 py-3 text-sm hover:bg-green-600 transition-colors duration-200 border-t border-gray-700"
                                         >
                                             🔥 월별 지출 히트맵
@@ -229,7 +229,7 @@ export default function Navbar() {
                                     🥧 파이 차트
                                 </Link>
                                 <Link
-                                    href="/tax_credit"
+                                    href="/hitmap"
                                     className="block px-4 py-2 rounded-lg text-sm font-medium bg-gray-700/50 hover:bg-green-600 transition-all duration-200"
                                     onClick={() => setIsMobileVisualizeOpen(false)}
                                 >
