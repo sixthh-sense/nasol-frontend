@@ -145,20 +145,12 @@ export default function Navbar() {
                     {/* 인증 버튼 */}
                     <div className="flex items-center space-x-2">
                         {isLoggedIn ? (
-                            <>
-                                <button
-                                    onClick={handleLogout}
-                                    className="px-4 py-2 rounded-lg text-sm font-medium bg-red-600 hover:bg-red-700 hover:shadow-lg transition-all duration-200 hover:scale-105 active:scale-95"
-                                >
-                                    🚪 Logout
-                                </button>
-                                <button
-                                    onClick={handleSessionOut}
-                                    className="px-4 py-2 rounded-lg text-sm font-medium bg-red-600 hover:bg-red-700 hover:shadow-lg transition-all duration-200 hover:scale-105 active:scale-95"
-                                >
-                                    🚪 세션 삭제
-                                </button>
-                            </>
+                            <button
+                                onClick={handleLogout}
+                                className="px-4 py-2 rounded-lg text-sm font-medium bg-red-600 hover:bg-red-700 hover:shadow-lg transition-all duration-200 hover:scale-105 active:scale-95"
+                            >
+                                🚪 Logout
+                            </button>
                         ) : (
                             <Link
                                 href="/login"
@@ -167,18 +159,24 @@ export default function Navbar() {
                                 🔐 Login
                             </Link>
                         )}
+                        <button
+                            onClick={handleSessionOut}
+                            className="px-4 py-2 rounded-lg text-sm font-medium bg-red-600 hover:bg-red-700 hover:shadow-lg transition-all duration-200 hover:scale-105 active:scale-95"
+                        >
+                            🚪 세션 삭제
+                        </button>
                     </div>
                 </div>
 
                 {/* 모바일 메뉴 */}
                 <div className="md:hidden pb-4 space-y-2">
                     <Link
-                        href="/flow" 
+                        href="/flow"
                         className="block px-4 py-2 rounded-lg text-sm font-medium bg-gray-700/50 hover:bg-blue-600 transition-all duration-200"
                     >
                         📤 Upload
                     </Link>
-                    
+
                     {/* 모바일 자료 분석 드롭다운 */}
                     <div>
                         <button
