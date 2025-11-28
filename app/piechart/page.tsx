@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface ChartData {
     name: string;
@@ -241,12 +242,16 @@ export default function PieChartPage() {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-screen bg-zinc-50 dark:bg-black">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto mb-4"></div>
-                    <p className="text-zinc-600 dark:text-zinc-400">데이터를 불러오는 중...</p>
-                </div>
-            </div>
+            <LoadingSpinner
+                messages={[
+                    "Redis에서 재무 데이터를 가져오는 중...",
+                    "소득 항목을 카테고리별로 분류하고 있습니다...",
+                    "지출 항목을 카테고리별로 분류하고 있습니다...",
+                    "차트 데이터를 준비하고 있습니다...",
+                    "거의 완료되었습니다!"
+                ]}
+                interval={1500}
+            />
         );
     }
 
