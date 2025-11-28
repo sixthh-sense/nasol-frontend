@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface MarkdownRendererProps {
     content: string;
@@ -245,12 +246,16 @@ export default function AssetsSimulationPage() {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-screen bg-zinc-50 dark:bg-black">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto mb-4"></div>
-                    <p className="text-zinc-600 dark:text-zinc-400">연말정산 공제 분석 중...</p>
-                </div>
-            </div>
+            <LoadingSpinner
+                messages={[
+                    "재무 데이터를 불러오는 중...",
+                    "연말정산 공제 항목을 분석하고 있습니다...",
+                    "세액 공제 가능 여부를 판단하고 있습니다...",
+                    "공제 예상 금액을 계산하고 있습니다...",
+                    "거의 완료되었습니다!"
+                ]}
+                interval={1800}
+            />
         );
     }
 

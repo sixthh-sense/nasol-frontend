@@ -1,4 +1,4 @@
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import MarkdownRenderer from "./MarkdownRenderer";
 
 interface TaxCreditContentProps {
@@ -11,7 +11,27 @@ interface TaxCreditContentProps {
 export default function TaxCreditContent({ loading, error, result, activeTab }: TaxCreditContentProps) {
     return (
         <div className="px-6 py-8 min-h-[300px]">
-            {loading && <LoadingSpinner activeTab={activeTab} />}
+            {loading && (
+                <LoadingSpinner
+                    messages={
+                        activeTab === "detail"
+                            ? [
+                                  "재무 데이터를 불러오는 중...",
+                                  "세액 공제 항목을 분석하고 있습니다...",
+                                  "공제 가능 금액을 계산하고 있습니다...",
+                                  "최적 절세 전략을 수립하고 있습니다...",
+                                  "거의 완료되었습니다!",
+                              ]
+                            : [
+                                  "체크리스트를 생성하고 있습니다...",
+                                  "필수 서류를 확인하고 있습니다...",
+                                  "주의 사항을 정리하고 있습니다...",
+                                  "거의 완료되었습니다!",
+                              ]
+                    }
+                    interval={1800}
+                />
+            )}
 
             {!loading && error && (
                 <div className="flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">

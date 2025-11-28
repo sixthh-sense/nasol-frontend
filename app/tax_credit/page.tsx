@@ -6,6 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import TaxCreditHeader from "../../components/tax-credit/TaxCreditHeader";
 import TaxCreditTabs from "../../components/tax-credit/TaxCreditTabs";
 import TaxCreditContent from "../../components/tax-credit/TaxCreditContent";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function TaxCreditPage() {
     const [activeTab, setActiveTab] = useState<"detail" | "checklist">("detail");
